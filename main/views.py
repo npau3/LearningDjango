@@ -23,7 +23,9 @@ def create(request):
             error = 'Форма была неверной'
     form = TaskForm()
     context = {
+
         'form': form,
         'error': error
+
     }
     return render(request, 'main/create.html', context)
