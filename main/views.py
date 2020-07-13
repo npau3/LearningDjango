@@ -9,8 +9,6 @@ def index(request):
 
 
 def about(request):
-    print(request)
-    print(render(request, 'main/about.html').getvalue().decode("utf-8", "strict"))
     return render(request, 'main/about.html')
 
 
@@ -23,8 +21,6 @@ def create(request):
             return redirect('create')
         else:
             error = 'Форма была неверной'
-            # redirect('create')
-
     form = TaskForm()
     context = {
         'form': form,
