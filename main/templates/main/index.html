@@ -18,8 +18,11 @@
     {% if tasks %}
         {% for element in tasks %}
             <div class="alert alert-warning mt-2">
-                <h3>{{ element.product }}</h3>
-                <p>{{ element.amount }}</p>
+                <p style="font-size: 30px"><b>{{ element.product }}:</b>
+                    {{ element.amount }}
+                    <a style="font-size: 20px"  href="{% url 'about' %}">Редактировать</a>
+                    <a style="font-size: 20px"  href="{% url 'about' %}">Удалить</a>
+                </p>
             </div>
         {% endfor %}
     {% else %}
