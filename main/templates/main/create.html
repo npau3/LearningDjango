@@ -9,11 +9,13 @@
     <h1> Добавить продукт </h1>
     <form method="post">
         {% csrf_token %}
+        {{ form.id }}<br>
         {{ form.product }}<br>
         {{ form.amount }}<br>
-{#        <input type="text" placeholder="Введите название" class="form-control"><br>#}
-{#        <input type="text" placeholder="Введите количество" class="form-control"><br>#}
         <button type="submit" class="btn btn-success">Добавить</button>
         <span>{{ error }}</span>
+        {% if success %}
+            <p style="color:#861313">Запись добавлена</p>
+        {% endif %}
     </form>
 {% endblock %}

@@ -19,8 +19,8 @@
         {% for element in tasks %}
             <div class="alert alert-warning mt-2">
                 <p style="font-size: 30px"><b>{{ element.product }}:</b>
-                    {{ element.amount }}
-                    <a style="font-size: 20px"  href="{% url 'about' %}">Редактировать</a>
+                    {{ element.amount }} {{ element.id }}
+                    <a style="font-size: 20px"  href="{% url 'update_page'%}">Редактировать</a>
                     <a style="font-size: 20px"  href="{% url 'about' %}">Удалить</a>
                 </p>
             </div>
