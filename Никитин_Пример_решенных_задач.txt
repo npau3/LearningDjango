@@ -1,0 +1,162 @@
+Задания:
+https://www.codewars.com/users/npau3/completed
+
+Перейдя по ссылке будет список задач решенных мной.
+Так как сайт не предоставляет доступа к решению определенного пользователя размещаю код ниже.
+Текст заданий не размещаю в файле т.к некоторые задания довольно объемные и на сайте смотрятся понятнее.
+Код к заданиям с указанием названия решенной задачи:
+
+Задание1 Directions Reduction:
+Первый вариант:
+def dirReduc(arr):
+    for i in range(len(arr)):
+        if len(arr)-1 <= i or len(arr) == 1:
+            return arr
+        if len(arr) > 1 and ((arr[i] == "NORTH" and arr[i+1] == "SOUTH") \
+                             or (arr[i] == "SOUTH" and arr[i+1] == "NORTH") \
+                             or (arr[i] == "WEST" and arr[i+1] == "EAST") \
+                             or (arr[i] == "EAST" and arr[i+1] == "WEST")):
+            del arr[i+1]
+            del arr[i]
+            dirReduc(arr)
+    return arr
+	
+	
+Второй вариант:
+def dirReduc(arr):
+    a = arr
+    for i in range(len(a)):
+        try:
+            if (a[i] == "NORTH" and a[i+1] == "SOUTH") or (a[i] == "SOUTH" and a[i+1] == "NORTH") or (a[i] == "WEST" and a[i+1] == "EAST") or (a[i] == "EAST" and a[i+1] == "WEST"):
+                del a[i+1]
+                del a[i]
+        except IndexError:
+            for i in range(len(a)):
+                try:
+                    if (a[i] == "NORTH" and a[i+1] == "SOUTH") or (a[i] == "SOUTH" and a[i+1] == "NORTH") or (a[i] == "WEST" and a[i+1] == "EAST") or (a[i] == "EAST" and a[i+1] == "WEST"):
+                        del a[i+1]
+                        del a[i]
+                except IndexError:
+                    pass
+    return a
+	
+	
+Задание2 Rot13:
+def rot13(message):
+    b = list(message)
+    a = list(string.ascii_letters)
+    t = 13
+    for i in range(len(b)):
+        for j in range(len(a)):
+            if b[i] == a[j]:
+                if  b[i].isupper():
+                    if j+t > len(a)-1:
+                        y = j-t
+                        b[i] = a[y]
+                    else:
+                        b[i] = a[j+t]
+                else:
+                    if j+t > (len(a)/2)-1:
+                        y = j - t
+                        b[i] = a[y]
+                    else:
+                        b[i] = a[j+t]
+                break
+    t = ""
+    for i in range(len(b)):
+        t += b[i]
+    return t
+	
+	
+Задание3 Stop gninnipS My sdroW!:
+def spin_words(sentence):
+    c = list(sentence.split(" "))
+    a = ""
+    for i in range(len(c)):
+        if len(c[i]) >= 5:
+            a += c[i][::-1] + " "
+        else: 
+            a += c[i] + " "
+    a = a[:len(a)-1]
+    return a
+
+
+Задание4 Is a number prime?:
+def is_prime(num):
+    if num <= 1:
+        return(False)
+    else:
+        for i in range(2, int((num ** 0.5) + 1)):
+            if num % i == 0: 
+                return False
+        return num > 1
+
+
+Задание5 Create Phone Number:
+def create_phone_number(n):
+    a = ''.join(str(i) for i in n)
+    return("(" + a[0] + a[1] + a[2] + ") " + a[3] + a[4] + a[5] + "-" + a[6] + a[7] + a[8] + a[9] )
+	
+	
+	
+Задание6 Equal Sides Of An Array:
+def find_even_index(arr):
+    for i in range(0,len(arr)):
+        a = 0
+        b = 0
+        for n in range(0,i):
+            a += arr[n]
+        for m in range(i+1,len(arr)):
+            b += arr[m]
+        print(a)
+        print(b)
+        if a == b:
+            print(i)
+            return(i)
+    return(-1)
+
+
+Задание7 Friend or Foe?:
+def friend(x):
+    dryzbya = []
+    for i in range(len(x)):
+        if len(x[i]) == 4:
+            dryzbya.append(x[i])
+    return(dryzbya)
+
+
+Задание8 Sum of two lowest positive integers:
+def sum_two_smallest_numbers(numbers):
+    test = numbers
+    a = min(test)
+    test.remove(a)
+    b = min(test)
+    return(a + b)
+	
+	
+Задание9 Tribonacci Sequence:
+def tribonacci(signature, n):
+    test = []
+    if n == 0:
+        signature = []
+    elif n < 4:
+        for i in range(0,n):
+            test.append(signature[i])
+        signature = test
+    else:
+        for i in range(0, n-3):
+            signature.append(signature[i] + signature[i+1] + signature[i+2])
+    return (signature)
+
+
+Задание10 Categorize New Member:
+def open_or_senior(data):
+    # a = [(45, 12),(55,21),(19, -2),(104, 20),(104, 20),(104, 20)]
+    # print(a)
+    list = []
+    for i in data:
+        if i[0] >= 55 and i[1] > 7:
+            list.append("Senior")
+        else: list.append('Open')
+    # print(list)
+    return(list)
