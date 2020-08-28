@@ -53,7 +53,7 @@ class SearchResultsView(ListView):
     context_object_name = 'tasks'
     
     def get_queryset(self):
-        query = self.request.GET.post('q')
+        query = self.request.GET.get('q')
         tasks= Task.objects.filter(
             Q(product__icontains=query) | Q(amount__icontains=query)
         )

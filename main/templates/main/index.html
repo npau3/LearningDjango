@@ -13,7 +13,7 @@
     <p> отличающими его от других животных, являются прямохождение, высокоразвитый головной мозг,</p>
     <p> мышление и членораздельная речь</p><br>
 
-    <form action={% url 'search_page' %} method='POST'>
+    <form action={% url 'search_page' %} method='GET'>
         {% csrf_token %}
         <input type="text" style="width: 400px; height: 38px; margin-left: auto; margin-right: auto;"
                name="q" class="form-control" placeholder="Поиск..." maxlength="30" ><br>
