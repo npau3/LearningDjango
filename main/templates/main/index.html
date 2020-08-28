@@ -4,8 +4,6 @@
 {% block title %}
     {{ title }}
 {% endblock %}
-
-
 {% block content %}
     <h1>Кто же такой Человек?</h1>
     <p>Челове́к — общественное существо, обладающее разумом и сознанием,</p>
@@ -13,21 +11,57 @@
     <p>По научным данным, возник на Земле в результате эволюционного процесса — антропогенеза, </p>
     <p>детали которого продолжают изучаться. Специфическими особенностями человека,</p>
     <p> отличающими его от других животных, являются прямохождение, высокоразвитый головной мозг,</p>
-    <p> мышление и членораздельная речь</p>
+    <p> мышление и членораздельная речь</p><br>
+
+    <form action={% url 'search_page' %} method='POST'>
+        {% csrf_token %}
+        <input type="text" style="width: 400px; height: 38px; margin-left: auto; margin-right: auto;"
+               name="q" class="form-control" placeholder="Поиск..." maxlength="30" ><br>
+        <button type="submit" class="btn btn-primary">Поиск</button>
+    </form><br>
+
 
     {% if tasks %}
         {% for element in tasks %}
-            <div class="alert alert-warning mt-2">
-                <p style="font-size: 30px"><b>{{ element.product }}:</b>
-                    {{ element.amount }} {{ element.id }}
-                    <a style="font-size: 20px"  href="{% url 'update_page'%}">Редактировать</a>
-                    <a style="font-size: 20px"  href="{% url 'about' %}">Удалить</a>
-                </p>
+            <div class="alert alert-warning">
+                <form style="font-size: 30px" action="{% url 'update_page' element.id %}" method="get">
+                    {% csrf_token %}
+                        <b>{{ element.product }}:</b>
+                        {{ element.amount }} {{ element.id }}
+                        <b style="float: right">
+                            <button type="submit" class="btn btn-primary" >Редактировать</button>
+                            <a style="background-color: #ff0000; border-color: red" class="btn btn-primary" href="{% url 'delete_page' element.id %}">Удалить</a>
+                        </b>
+                </form>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Окно удаления</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Вы уверены что хотите удалить?
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" style="background-color:#007bff" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                            <form action={% url 'delete_page' element.id  %} method="post">
+                                {% csrf_token %}
+                                {{ element.id }}
+                                <button type="submit" style="background-color:#ff0000;border-color: red" class="btn btn-primary">Да</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         {% endfor %}
     {% else %}
-        <div class="alert alert-warning mt-2">
+        <div class="alert alert-warning">
             <p> Нет записей </p>
         </div>
     {% endif %}
+
 {% endblock %}
