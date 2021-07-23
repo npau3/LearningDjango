@@ -4,26 +4,41 @@ from .forms import TaskForm
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DeleteView, DetailView, UpdateView, TemplateView, CreateView
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 
 
-class HomeListView(ListView):
+class Registration(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/registration.html'
+
+
+class HomeListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'main/index.html'
     context_object_name = 'tasks'
 
 
-class AboutListView(TemplateView):
+class AboutListView(LoginRequiredMixin, TemplateView):
     template_name = 'main/about.html'
 
 
-class TaskCreateView(CreateView):
+def sample_view(request):
+    print("enter!!!!!!!!!!!!!!!!!")
+    current_user = request.user.id
+    print(current_user)
+    return current_user
+
+
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     template_name = 'main/create.html'
     form_class = TaskForm
     success_url = reverse_lazy('home')
 
 
-class UpdateTaskView(UpdateView):
+class UpdateTaskView(LoginRequiredMixin, UpdateView):
     model = Task
     template_name = 'main/create.html'
     form_class = TaskForm
@@ -45,9 +60,11 @@ def delete_page(request, pk):
     get_task = Task.objects.get(pk=pk)
     get_task.delete()
     return redirect(reverse('home'))
+# можно сделать поле ввода для записи пользователя(ид), но эт косяк,
+# Надо найти как передать в форму текущего юзера
+# Посмотреть как делают магазин на джанго
 
-
-class SearchResultsView(ListView):
+class SearchResultsView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'main/index.html'
     context_object_name = 'tasks'

@@ -25,7 +25,7 @@ SECRET_KEY = '2b8g+cq)b(k97$bo*4eb=4bchl8oja-!^$qj=5^n#t*6%kzki2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.1.230", "95.79.101.224", "npau3.ga", "127.0.0.1" ]
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'crispy_forms',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'LearningDjango.urls'
+
+LOGIN_REDIRECT_URL = '/homepage'
+
+LOGIN_URL = "/"
 
 TEMPLATES = [
     {

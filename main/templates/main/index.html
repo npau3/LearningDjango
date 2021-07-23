@@ -27,7 +27,7 @@
                 <form style="font-size: 30px" action="{% url 'update_page' element.id %}" method="get">
                     {% csrf_token %}
                         <b>{{ element.product }}:</b>
-                        {{ element.amount }} {{ element.id }}
+                        {{ element.amount }}
                         <b style="float: right">
                             <button type="submit" class="btn btn-primary" >Редактировать</button>
                             <a style="background-color: #ff0000; border-color: red" class="btn btn-primary" href="{% url 'delete_page' element.id %}">Удалить</a>

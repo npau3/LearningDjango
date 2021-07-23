@@ -1,13 +1,11 @@
-from enum import auto
-
 from .models import Task
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm, TextInput, HiddenInput
 
 
 class TaskForm(ModelForm):
     class Meta:
         model = Task
-        fields = ["product", "amount"]
+        fields = ["product", "amount", "author"]
         widgets = {
             "product": TextInput(attrs={
                 'class': 'form-control',
@@ -20,5 +18,6 @@ class TaskForm(ModelForm):
                 'placeholder': 'Введите количество',
                 'style': "width: 400px; height: 38px; margin-left: auto; margin-right: auto;",
             }),
+            "author": HiddenInput
         }
 # style="width: 400px; height: 38px; margin-left: auto; margin-right: auto;"
