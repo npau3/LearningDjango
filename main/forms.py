@@ -18,6 +18,9 @@ class TaskForm(ModelForm):
                 'placeholder': 'Введите количество',
                 'style': "width: 400px; height: 38px; margin-left: auto; margin-right: auto;",
             }),
-            "author": HiddenInput
+            "author": HiddenInput(attrs={
+                'class': 'form-control',
+                'value': '',
+                'id': 'helper1',
+            })
         }
-# style="width: 400px; height: 38px; margin-left: auto; margin-right: auto;"

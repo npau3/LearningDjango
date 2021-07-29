@@ -9,6 +9,7 @@ class Task(models.Model):
 
     def __str__(self):
         return self.product
+            # , self.product + '|' + str(self.author)
 
     class Meta:
         verbose_name = 'Продукт'

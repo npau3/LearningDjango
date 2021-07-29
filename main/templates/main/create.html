@@ -9,11 +9,14 @@
     <h1> Добавить продукт </h1>
     <form id ="add_form" method="post">
         {% csrf_token %}
-        {{ form.id }}<br>
         {{ form.product }}<br>
         {{ form.amount }}<br>
-        {{ form.author }}<br>
+        {{ form.author }} <br>
         <button type="submit" class="btn btn-success">Добавить</button>
+        <script>
+            var name = "{{ user.id }}";
+            document.getElementById("helper1").value = name;
+        </script>
         <span>{{ error }}</span>
     </form>
 {% endblock %}

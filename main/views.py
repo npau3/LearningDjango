@@ -8,6 +8,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 
 
+def delete_page(self, pk):
+    print(self)
+    print(pk)
+    get_task = Task.objects.get(id=pk)
+    get_task.delete()
+    return redirect(reverse('home'))
+
+
 class Registration(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
@@ -19,16 +27,12 @@ class HomeListView(LoginRequiredMixin, ListView):
     template_name = 'main/index.html'
     context_object_name = 'tasks'
 
+    def get_queryset(self):
+        return Task.objects.filter(author_id=self.request.user.id)
+
 
 class AboutListView(LoginRequiredMixin, TemplateView):
     template_name = 'main/about.html'
-
-
-def sample_view(request):
-    print("enter!!!!!!!!!!!!!!!!!")
-    current_user = request.user.id
-    print(current_user)
-    return current_user
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
@@ -37,12 +41,28 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     form_class = TaskForm
     success_url = reverse_lazy('home')
 
+    def get_queryset(self):
+        return Task.objects.exlude(panel__user=self.request.user.id, panel__valid=False)
+
 
 class UpdateTaskView(LoginRequiredMixin, UpdateView):
     model = Task
     template_name = 'main/create.html'
     form_class = TaskForm
     success_url = reverse_lazy('home')
+
+
+class SearchResultsView(LoginRequiredMixin, ListView):
+    model = Task
+    template_name = 'main/index.html'
+    context_object_name = 'tasks'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        tasks = Task.objects.filter(
+            Q(product__icontains=query) | Q(amount__icontains=query)
+        )
+        return tasks
 
 
 # class DeleteTaskView(DeleteView):
@@ -54,27 +74,6 @@ class UpdateTaskView(LoginRequiredMixin, UpdateView):
 #         tasks = Task.objects.get(id=pk)
 #         tasks.delete()
 #         return redirect(reverse('home'))
-
-
-def delete_page(request, pk):
-    get_task = Task.objects.get(pk=pk)
-    get_task.delete()
-    return redirect(reverse('home'))
-# можно сделать поле ввода для записи пользователя(ид), но эт косяк,
-# Надо найти как передать в форму текущего юзера
-# Посмотреть как делают магазин на джанго
-
-class SearchResultsView(LoginRequiredMixin, ListView):
-    model = Task
-    template_name = 'main/index.html'
-    context_object_name = 'tasks'
-    
-    def get_queryset(self):
-        query = self.request.GET.get('q')
-        tasks= Task.objects.filter(
-            Q(product__icontains=query) | Q(amount__icontains=query)
-        )
-        return tasks
 
 
 # def create(request):
