@@ -1,19 +1,10 @@
-from django.shortcuts import render, redirect
 from .models import Task
 from .forms import TaskForm
-from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, DeleteView, DetailView, UpdateView, TemplateView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DeleteView, UpdateView, TemplateView, CreateView
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
-
-
-def delete_page(self, pk):
-    print(self)
-    print(pk)
-    get_task = Task.objects.get(id=pk)
-    get_task.delete()
-    return redirect(reverse('home'))
 
 
 class Registration(CreateView):
@@ -41,9 +32,6 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     form_class = TaskForm
     success_url = reverse_lazy('home')
 
-    def get_queryset(self):
-        return Task.objects.exlude(panel__user=self.request.user.id, panel__valid=False)
-
 
 class UpdateTaskView(LoginRequiredMixin, UpdateView):
     model = Task
@@ -59,10 +47,25 @@ class SearchResultsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
-        tasks = Task.objects.filter(
-            Q(product__icontains=query) | Q(amount__icontains=query)
-        )
+        searching = Task.objects.filter(author_id = self.request.user.id)
+        tasks = searching.filter(
+            Q(product__icontains=query) | Q(amount__icontains=query))
         return tasks
+
+
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    model = Task
+    template_name = 'main/delete.html'
+    success_url = reverse_lazy('home')
+
+
+# def delete_page(self, pk):
+#     print(self)
+#     print(pk)
+#     get_task = Task.objects.get(id=pk)
+#     get_task.delete()
+#     return redirect(reverse('home'))
+
 
 
 # class DeleteTaskView(DeleteView):
