@@ -1,2 +1,4 @@
 venv/*
 main/migrations/*
+env/*
+api/migrations/*
